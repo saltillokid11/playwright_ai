@@ -22,6 +22,9 @@ All Page Objects inherit from `pages/BasePage.ts` and enforce `AGENTS.md` locato
 | `ProductDetailPage` | `/product/:id` | `productName` (`heading` level 1), `quantityInput` (`testId: quantity`), `addToCartButton` (`button: Add to Cart`), `toastAlert` (`role: alert`), `setQuantity(qty)`, `addToCart()` |
 | `CartPage` | `/checkout` | `productTitle` (`testId: product-title`), `quantityInput` (`testId: product-quantity`), `linePrice` (`testId: line-price`), `cartTotal` (`testId: cart-total`), `proceedToCheckoutButton` (`button: Proceed to checkout`) |
 
+- **Custom POM Fixtures (`fixtures/testFixtures.ts`):** Injects pre-instantiated `homePage`, `productDetailPage`, and `cartPage` into tests via `test.extend<PageFixtures>()`.
+- **Browser Cart State (`sessionStorage`):** Angular persists active cart state in `sessionStorage` keys `cart_id` and `cart_quantity`, enabling instant Hybrid API-to-UI cart seeding before navigating to `/checkout`.
+
 ---
 
 ## 3. Verified REST API Contract (`https://api.practicesoftwaretesting.com`)
@@ -65,5 +68,6 @@ All Page Objects inherit from `pages/BasePage.ts` and enforce `AGENTS.md` locato
 
 ## 4. Target Test Coverage & CI Gates
 - **UI E2E Tests (`tests/*.spec.ts`):** Home catalog & search, Product detail & add-to-cart, Shopping cart math & badge sync.
+- **Hybrid API + UI Tests (`tests/hybrid-cart.spec.ts`):** Seed cart via REST API (`POST /carts` + `POST /carts/{id}`), inject `sessionStorage` state, and assert UI rendering on `/checkout` via custom fixtures.
 - **API Tests (`tests/api/*.spec.ts`):** Catalog contract & search filtering, full Cart CRUD flow (`POST /carts` → `POST /carts/{id}` → `GET /carts/{id}`), negative login (`401`).
 - **CI/CD Pipeline (`.github/workflows/playwright.yml`):** Triggers on push/PR to `main`/`master`, runs the Chromium test suite (`npx playwright test --project=chromium`), and uploads the `playwright-report/` artifact.
