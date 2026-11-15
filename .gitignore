@@ -1,0 +1,17 @@
+    node_modules/
+    /test-results/
+    /playwright-report/
+    /playwright/.cache/
+    /blob-report/
+    .env
+    .env.*
+    !.env.example
+    .auth/
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
